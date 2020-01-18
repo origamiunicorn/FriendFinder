@@ -8,20 +8,37 @@ module.exports = function (app) {
     });
 
     app.post("/api/friends", function (req, res) {
-        // console.log(req.body);
-        // console.log(req.body.data.scores);
 
         let newFriend = req.body.data.scores;
-        console.log(newFriend);
-        console.log(friendsData[0].scores);
+        let compatNum = 51;
+        let compatIndex = [];
+        let findIndex;
 
-        compareArr(newFriend, friendsData[0].scores);
+        for (let i = 0; i < friendsData.length; i++) {
+            let arrSum = compareArr(newFriend, friendsData[i].scores);
+            if (arrSum < compatNum) {
+                compatNum = arrSum;
+                compatIndex = [];
+                compatIndex.push(i);
+                console.log("compatNum", compatNum, "compatIndex", compatIndex)
+            } else if (arrSum === compatNum) {
+                compatIndex.push(i);
+                console.log("compatNum", compatNum, "compatIndex", compatIndex)
+            } else {
+                console.log("this index is less compatable", i);
+            }
+        };
+        console.log(compatNum);
+        console.log(compatIndex);
 
-        // for (let i = 0; i < friendsData.length; i++) {
-
-        // }
-
-        // want to push to array but before/after checking all values?
+        if (compatIndex.length > 1) {
+            let randomFriend = Math.floor(Math.random() * compatIndex.length);
+            findIndex = parseInt(compatIndex[randomFriend]);
+            console.log("The randomised greatest compatibility is with the person at index", findIndex, friendsData[findIndex], "on the friendsData array");
+        } else {
+            findIndex = parseInt(compatIndex[0]);
+            console.log("The singular greatest compatibility is with the person at index", friendsData[findIndex], "on the friendsData array");
+        }
     });
 
 };
@@ -31,7 +48,12 @@ function compareArr(arr1, arr2) {
         return Math.abs(parseInt(num) - arr2[idx]);
     });
 
+    const arrSum = sumDiff.reduce((a, b) => a + b, 0);
+
     console.log("Absolute Values between two arrays", sumDiff);
+    console.log("Sum of differences in array", arrSum);
+
+    return arrSum;
 }
 
 
