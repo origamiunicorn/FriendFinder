@@ -9,51 +9,62 @@ module.exports = function (app) {
 
     app.post("/api/friends", function (req, res) {
 
+        console.log(req.body.data);
+
         let newFriend = req.body.data.scores;
         let compatNum = 51;
         let compatIndex = [];
         let findIndex;
 
-        for (let i = 0; i < friendsData.length; i++) {
-            let arrSum = compareArr(newFriend, friendsData[i].scores);
-            if (arrSum < compatNum) {
-                compatNum = arrSum;
-                compatIndex = [];
-                compatIndex.push(i);
-                console.log("compatNum", compatNum, "compatIndex", compatIndex)
-            } else if (arrSum === compatNum) {
-                compatIndex.push(i);
-                console.log("compatNum", compatNum, "compatIndex", compatIndex)
-            } else {
-                console.log("this index is less compatable", i);
-            }
-        };
-        console.log(compatNum);
-        console.log(compatIndex);
+        compatIndex = sumCompat(newFriend, friendsData, compatNum);
+        findIndex = findFriend(compatIndex);
+        friendsData.push(req.body.data);
 
-        if (compatIndex.length > 1) {
-            let randomFriend = Math.floor(Math.random() * compatIndex.length);
-            findIndex = parseInt(compatIndex[randomFriend]);
-            console.log("The randomised greatest compatibility is with the person at index", findIndex, friendsData[findIndex], "on the friendsData array");
-        } else {
-            findIndex = parseInt(compatIndex[0]);
-            console.log("The singular greatest compatibility is with the person at index", friendsData[findIndex], "on the friendsData array");
-        }
+        res.json(friendsData[findIndex]);
     });
 
 };
 
 function compareArr(arr1, arr2) {
+    // Attempting to use mapping... make new array of abs values between two arrays
     const sumDiff = arr1.map(function (num, idx) {
         return Math.abs(parseInt(num) - arr2[idx]);
     });
 
+    // Try out them arrow functions and reduce new abs value array to integer
     const arrSum = sumDiff.reduce((a, b) => a + b, 0);
-
-    console.log("Absolute Values between two arrays", sumDiff);
-    console.log("Sum of differences in array", arrSum);
-
     return arrSum;
-}
+};
 
+function sumCompat(newFrnd, allFrnd, num) {
+    let arr = [];
+    for (let i = 0; i < allFrnd.length; i++) {
+        let arrSum = compareArr(newFrnd, allFrnd[i].scores);
+        if (arrSum < num) {
+            num = arrSum;
+            arr = [];
+            arr.push(i);
+            console.log("compatNum", num, "compatIndex", arr)
+        } else if (arrSum === num) {
+            arr.push(i);
+            console.log("compatNum", num, "compatIndex", arr)
+        } else {
+            console.log("the friend at this index is less compatable", i);
+        }
+    };
+    return arr;
+};
 
+function findFriend(arr) {
+    let indexF;
+    if (arr.length > 1) {
+        let randomFriend = Math.floor(Math.random() * arr.length);
+        indexF = parseInt(arr[randomFriend]);
+        console.log("The randomised greatest compatibility is with the person at index", indexF, friendsData[indexF], "on the friendsData array");
+        return indexF;
+    } else {
+        indexF = parseInt(arr[0]);
+        console.log("The singular greatest compatibility is with the person at index", indexF, friendsData[indexF], "on the friendsData array");
+        return indexF;
+    }
+};
