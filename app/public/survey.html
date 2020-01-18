@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Friend Finder Survey</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="text-center">
+                    Friend Finder</h1>
+                <hr>
+                <h3 class="text-center">Make a new connection!</h3>
+                <br />
+                <!-- Reservation Page -->
+                <div class="card">
+                    <div class="card-body">
+                        <form role="form">
+                            <div class="form-group">
+                                <label for="name">Name (required)</label>
+                                <input type="text" class="form-control" id="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="photo">Photo (required)</label>
+                                <input type="text" class="form-control" id="photo">
+                            </div>
+                            <div class="form-group">
+                                <label for="q">Question </label>
+                                <select class="form-control" name="q1" id="q1">
+                                    <option value="" disabled selected>Please select an option.</option>
+                                    <option value="1">1 (Strongly Disagree)</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5 (Strongly Agree)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="q">Question </label>
+                                <select class="form-control" name="q2" id="q2">
+                                    <option value="" disabled selected>Please select an option.</option>
+                                    <option value="1">1 (Strongly Disagree)</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5 (Strongly Agree)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="q">Question </label>
+                                <select class="form-control" name="q3" id="q3">
+                                    <option value="" disabled selected>Please select an option.</option>
+                                    <option value="1">1 (Strongly Disagree)</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5 (Strongly Agree)</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <p>
+                    <br />
+                    <a href="/api/friends">API Table Link</a> |
+                    <a href="#">GitHub Repo</a>
+                </p>
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+
+</html>
+
+<script type="text/javascript">
+
+    $(".submit").on("click", function (event) {
+        // prevent default action
+        event.preventDefault();
+
+        console.log("Button clicked!");
+
+        var newFriend = {
+            name: $("#name").val().trim(),
+            photo: $("#photo").val().trim(),
+            scores: [
+                $("#q1").children("option:selected").val().trim(),
+                $("#q2").children("option:selected").val().trim(),
+                $("#q3").children("option:selected").val().trim(),
+            ]
+        };
+
+        console.log(newFriend);
+
+        // Send the POST request.
+        $.post("/api/friends", {
+            data: newFriend
+        }, function () { $("form").get(0).reset(); }
+        );
+    });
+
+</script>
