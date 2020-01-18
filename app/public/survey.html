@@ -15,7 +15,7 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
 
 </head>
 
@@ -25,7 +25,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="text-center">
-                    Friend Finder</h1>
+                    Friend Finder Survey</h1>
                 <hr>
                 <h3 class="text-center">Make a new connection!</h3>
                 <br />
@@ -34,15 +34,17 @@
                     <div class="card-body">
                         <form role="form">
                             <div class="form-group">
-                                <label for="name">Name (required)</label>
+                                <i class="fas fa-user-circle"></i> <label for="name">Name (required)</label>
                                 <input type="text" class="form-control" id="name">
                             </div>
                             <div class="form-group">
-                                <label for="photo">Photo (required)</label>
+                                <i class="fas fa-camera"></i> <label for="photo">Photo (required)</label>
                                 <input type="text" class="form-control" id="photo">
                             </div>
                             <div class="form-group">
+                                <i class="fas fa-quote-left"></i>
                                 <label for="q">Question </label>
+                                <i class="fas fa-quote-right"></i>
                                 <select class="form-control" name="q1" id="q1">
                                     <option value="" disabled selected>Please select an option.</option>
                                     <option value="1">1 (Strongly Disagree)</option>
@@ -86,7 +88,7 @@
                 <p>
                     <br />
                     <a href="/api/friends">API Table Link</a> |
-                    <a href="#">GitHub Repo</a>
+                    <a href="https://github.com/origamiunicorn/FriendFinder" target="_blank">GitHub Repo</a>
                 </p>
             </div>
         </footer>
@@ -100,7 +102,7 @@
 <script type="text/javascript">
 
     $(".submit").on("click", function (event) {
-        // prevent default action
+        // Prevent default action.
         event.preventDefault();
 
         console.log("Button clicked!");
